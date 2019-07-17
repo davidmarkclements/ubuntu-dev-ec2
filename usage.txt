@@ -1,0 +1,31 @@
+ 
+ ubuntu-dev-ec2
+
+  ude -c /path/to/config
+
+  -c | --cfg | --config     Path to a config ini file, should contain at least:
+                              AWSAccessKeyId
+                              AWSSecretKey
+                              AWSKeyPair
+                              AWSSecurityGroup (overrides --sg flag)
+                            
+                            Config file can also override type, region, image and node
+
+  -n | --node               Version of Node.js to install, default: "8"
+                            Can specify up to patch version number if required.
+
+  --type | -t               Instance type, default: t2.micro
+
+  --region | -r             AWS Region, default: eu-central-1
+
+  --image | -i              AMI to create instance from, default: ami-009c174642dba28e4
+                            (ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-20190627.1)
+
+  --sg                      Security group, defaults to 'allow-ssh' which must
+                            be manually created in order to work
+
+  --dry | -d                Dry run instance creation
+
+  --help | -h               Output usage
+
+

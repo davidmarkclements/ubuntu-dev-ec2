@@ -1,0 +1,17 @@
+{
+  "name": "ubuntu-dev-ec2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "ude": "./cmd.js"
+  },
+  "keywords": [],
+  "author": "David Mark Clements (@davidmarkclem)",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.488.0",
+    "ini": "^1.3.5",
+    "minimist": "^1.2.0"
+  }
+}
