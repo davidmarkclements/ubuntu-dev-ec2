@@ -9,14 +9,16 @@ const sleep = promisify(setTimeout)
 const baseSetup = require('./setup')
 
 module.exports = launcher
-
+launcher.config = async (cfg) => {
+  return parse(await readFile(cfg, 'utf8'))
+}
 async function * launcher (opts) {
   let { cfg, setup = {} } = opts
   if (!cfg) {
     throw Error('config is required')
   }
   if (typeof cfg === 'string') {
-    cfg = parse(await readFile(cfg, 'utf8'))
+    cfg = await launcher.config(cfg)
   }
 
   const { AWSAccessKeyId, AWSSecretKey, AWSKeyPair } = cfg
