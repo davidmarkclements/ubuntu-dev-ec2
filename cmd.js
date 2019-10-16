@@ -19,6 +19,8 @@ const launcher = require('.')
 
 if (argv._.length === 0) argv._.push('start')
 
+run.argv = argv
+
 if (module.parent === null) {
   run().catch((err) => {
     console.error(`\n ⛔ Command failed: ${err.message} ⛔`)
