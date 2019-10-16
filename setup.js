@@ -16,7 +16,7 @@ mkdir -p /opt/mininet \
 `
 const node = ({ major } = {}) => `
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | su -c bash ubuntu >> /home/ubuntu/setup-status.txt 2>&1
-su -c ". /home/ubuntu/.nvm/nvm.sh && nvm install ${major}" ubuntu >> /home/ubuntu/setup-status.txt 2>&1
+su -c ". /home/ubuntu/.nvm/nvm.sh && nvm install ${major} && nvm use ${major}" ubuntu >> /home/ubuntu/setup-status.txt 2>&1
 `
 
 module.exports = {

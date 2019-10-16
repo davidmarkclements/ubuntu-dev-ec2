@@ -6,12 +6,12 @@ const aws = require('aws-sdk')
 const fs = require('fs')
 const readFile = promisify(fs.readFile)
 const sleep = promisify(setTimeout)
-const setup = require('./setup')
+const baseSetup = require('./setup')
 
 module.exports = launcher
 
 async function * launcher (opts) {
-  let { cfg } = opts
+  let { cfg, setup = {} } = opts
   if (!cfg) {
     throw Error('config is required')
   }
@@ -40,15 +40,20 @@ async function * launcher (opts) {
     region
   })
 
+  const userScripts = Object.keys(setup).map((k) => {
+    return '\n' + setup[k]() + `\necho -e "\nsetting up ${k}" >> /home/ubuntu/setup-status.txt`
+  }).join('')
+
   const scripts = Buffer.from(
     '#!/bin/bash\n' +
     '\necho "setting up box" >> /home/ubuntu/setup-status.txt' +
-    setup.box() +
+    baseSetup.box() +
     '\necho -e "\nsetting up mininet" >> /home/ubuntu/setup-status.txt' +
-    setup.mininet() +
+    baseSetup.mininet() +
     '\necho -e "\nsetting up node" >> /home/ubuntu/setup-status.txt' +
-    setup.node({ major: node }) +
-    '\necho -e "\nset up complete" >> /home/ubuntu/setup-status.txt'
+    baseSetup.node({ major: node }) +
+    userScripts +
+    '\necho -e "\nsetup complete" >> /home/ubuntu/setup-status.txt'
   ).toString('base64')
 
   const ec2 = new aws.EC2({ apiVersion: '2016-11-15', region })
