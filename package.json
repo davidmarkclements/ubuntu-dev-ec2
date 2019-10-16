@@ -1,6 +1,6 @@
 {
   "name": "ubuntu-dev-ec2",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Ubuntu EC2 Machine intended for development/profiling usage.",
   "main": "index.js",
   "bin": {
