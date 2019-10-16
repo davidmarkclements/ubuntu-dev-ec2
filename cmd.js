@@ -19,22 +19,30 @@ const launcher = require('.')
 
 if (argv._.length === 0) argv._.push('start')
 
-const [ cmd ] = argv._
-
-if (argv.help) {
-  usage()
-} else {
+if (module.parent === null) {
   run().catch((err) => {
     console.error(`\n ⛔ Command failed: ${err.message} ⛔`)
     usage(1)
   })
+} else {
+  module.exports = run
 }
 
-async function run () {
+async function run (launch = launcher, help = usage, output = write) {
+  const [ cmd ] = argv._
+
+  if (argv.help) {
+    help()
+    return
+  }  
+
   if (cmd !== 'start') {
     throw Error(`Unrecognized command ${cmd}`)
   }
-  const results = launcher(argv)
+  await output(launch(argv))
+}
+
+async function write (results) {
   for await (const output of results) {
     process.stdout.write(output)
   }
